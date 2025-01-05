@@ -4,7 +4,7 @@ hr {border: none; height: 1px; background: #eee;}
 ::-webkit-scrollbar {display: none;}
 section {padding: 10px;}
 .-container {border: 1px dashed #2AB5FF;}
-    
+
     /* codes for alerts */
 /* copy */
 .copyAlert {width: 100%; background: greenyellow; padding: 5px; text-align: center; position: fixed; top: 10px; left: 0; transition: all 0.5s; transform: scale(0);}
@@ -23,20 +23,27 @@ section {padding: 10px;}
 #popup_wrapper .box .image {max-height: 85%; overflow-y: scroll;}
 #popup_wrapper button {position: absolute; bottom: 0; left: 0; width: 100%; padding: 5px; border: none; background: #2AB5FF; color: #fff; font-size: 20px; cursor: pointer;}
 
+#step_1, #step_2, #step_3 {
+            text-align: center; 
+            }
+
     /* codes for step 1 */
 #step_1 .title {background: #2AB5FF; padding: 8px; margin: 3px; color: #fff; font-size: 17px;}
+#step_1 .wrapper {display: flex; justify-content: space-between; padding: 8px 15px; font-size: 18px;}
 #step_1 .wrapper {display: flex; justify-content: space-between; padding: 8px; font-size: 15px;}
 #step_1 .wrapper h5 {align-self: center;}
 #step_1 .wrapper .right_item {display: flex;}
+#step_1 .wrapper .right_item span {color: #F1A532; margin: 0 10px; white-space: nowrap; overflow: hidden; font-size: 16px; align-self: center; max-width: 150px;}
+#step_1 .wrapper .right_item button {cursor: pointer; background: #3C9CFF; color: #fff; border: none; padding: 5px 15px; font-size: 10px; border-radius: 3px;}
 #step_1 .wrapper .right_item span {color: #F1A532; margin: 0 5px; white-space: nowrap; overflow: hidden; font-size: 13px; align-self: center; max-width: 187px;}
 #step_1 .wrapper .right_item span#amount_input, #step_1 .wrapper .right_item span#name_input {margin-right: 20px;}
 #step_1 .wrapper .right_item button {cursor: pointer; background: #3C9CFF; color: #fff; border: none; padding: 5px 10px; font-size: 10px; border-radius: 3px;}
-    
+
     /* codes for step 2 */
 #step_2 .title {background: #2AB5FF; padding: 8px; margin: 3px; color: #fff; font-size: 17px;}
 #step_2 .item {padding: 5px 10px;}
 #step_2 .item i {color: #FF5500;}
-    
+
     /* codes for step 3 */
 #step_3 {position: relative; margin-bottom: 50px;}
 #step_3 .title {background: #2AB5FF; padding: 8px; margin: 3px; color: #fff; font-size: 17px;}
@@ -55,4 +62,3 @@ footer h4 {text-align: center; color: #ddd; margin-top: 30px; font-size: 19px; f
 
 @media screen and (max-width: 425px) {
     #popup_wrapper .box {width: 95%;}
-}
