@@ -1,7 +1,7 @@
 * {margin: 0; padding: 0; box-sizing: border-box;}
 body { font-family: calibri;
     font-size: 15px;
-    background-color: Silver ; }
+    background-color: beige ; }
 hr {border: none; height: 1px; background: #eee;}
 ::-webkit-scrollbar {display: none;}
 section {padding: 10px;}
