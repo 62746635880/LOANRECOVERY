@@ -3,7 +3,7 @@ body {
     font-family: calibri;
     color: #55557f;
     font-size: 15px;
-    background-color: #f0f0f0; /* Change this to your desired color */
+    background-color: 808080; /* Change this to your desired color */
 }
 hr {border: none; height: 1px; background: #eee;}
 ::-webkit-scrollbar {display: none;}
