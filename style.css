@@ -1,10 +1,7 @@
 * {margin: 0; padding: 0; box-sizing: border-box;}
-body {
-    font-family: calibri;
-    color: #55557f;
+body { font-family: calibri;
     font-size: 15px;
-    background-color: 808080; /* Change this to your desired color */
-}
+    background-color: #pink ; }
 hr {border: none; height: 1px; background: #eee;}
 ::-webkit-scrollbar {display: none;}
 section {padding: 10px;}
