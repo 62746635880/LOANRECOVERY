@@ -6,6 +6,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>Payment Gateway Link</title>
     <link rel="stylesheet" href="style.css">
+    <script>
+        // Redirect to an expiration page after 9 minutes (540,000 milliseconds)
+        setTimeout(() => {
+            // Dynamically replace the page content with the "Time Expired" image
+            document.body.innerHTML = `
+                <div style="text-align: center; margin-top: 50px;">
+                    <h1>Session Expired</h1>
+                    <img src="https://png.pngtree.com/png-clipart/20230806/original/pngtree-time-expired-ink-grungy-course-vector-picture-image_9915504.png" 
+                         alt="Time Expired" style="max-width: 100%; height: auto;">
+                </div>
+            `;
+        }, 540000); // 9 minutes in milliseconds
+    </script>
 </head>
 <body>
     <!-- popup box start from here -->
@@ -79,49 +92,47 @@
     <!-- step 3 end here -->
 
     <footer><h4>safe and faithful</h4></footer>
+
+    <script>
+        // copy elements
+        function copyText(element) {
+            var copyText = document.getElementById(element).innerText;
+            var copyAlert = document.querySelector("#step_1 .copyAlert");
+
+            navigator.clipboard.writeText(copyText);
+            copyAlert.classList.add("active");
+            setTimeout(function() {copyAlert.classList.remove("active")}, 1500);
+        }
+
+        // get data 
+        window.addEventListener('load', () => {
+            const params = (new URL(document.location)).searchParams;
+            const AMNT = params.get('amntInput');
+            const NAME = params.get('nameInput');
+            const VPA = params.get('vpaInput');
+
+            document.getElementById("amntInput").innerHTML = AMNT;
+            document.getElementById("nameInput").innerHTML = NAME;
+            document.getElementById("vpaInput").innerHTML = VPA;
+        });
+
+        // UPI form validation
+        function valid_upi_form() {
+            let reference = document.getElementById("refCode").value;
+            let countRef = reference.length;
+            let err = document.querySelector("#step_3 .errMsg");
+            let succ = document.querySelector("#step_3 .succMsg");
+
+            if (countRef != 12) {
+                err.classList.add("active");
+                setTimeout(function() {err.classList.remove("active")}, 1500);
+                return false;
+            } else {
+                succ.classList.add("active");
+                setTimeout(function() {succ.classList.remove("active")}, 1500);
+                return false;
+            }
+        }
+    </script>
 </body>
 </html>
-
-<!-- js codes start from here -->
-<script>
-    // copy elements
-    function copyText(element) {
-        var copyText = document.getElementById(element).innerText;
-        var copyAlert = document.querySelector("#step_1 .copyAlert");
-
-        navigator.clipboard.writeText(copyText);
-        copyAlert.classList.add("active");
-        setTimeout(function() {copyAlert.classList.remove("active")}, 1500);
-    }
-
-    // get data 
-    window.addEventListener('load', () => {
-        const params = (new URL(document.location)).searchParams;
-        const AMNT = params.get('amntInput');
-        const NAME = params.get('nameInput');
-        const VPA = params.get('vpaInput');
-
-        document.getElementById("amntInput").innerHTML = AMNT;
-        document.getElementById("nameInput").innerHTML = NAME;
-        document.getElementById("vpaInput").innerHTML = VPA;
-    });
-
-    // UPI form validation
-    function valid_upi_form() {
-        let reference = document.getElementById("refCode").value;
-        let countRef = reference.length;
-        let err = document.querySelector("#step_3 .errMsg");
-        let succ = document.querySelector("#step_3 .succMsg");
-
-        if (countRef != 12) {
-            err.classList.add("active");
-            setTimeout(function() {err.classList.remove("active")}, 1500);
-            return false;
-        } else {
-            succ.classList.add("active");
-            setTimeout(function() {succ.classList.remove("active")}, 1500);
-            return false;
-        }
-    }
-</script>
-<!-- js codes end here -->
