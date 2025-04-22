@@ -7,20 +7,45 @@
     <title>Payment Gateway Link</title>
     <link rel="stylesheet" href="style.css">
     <script>
-        // Redirect to an expiration page after 9 minutes (540,000 milliseconds)
-        setTimeout(() => {
-            // Dynamically replace the page content with the "Time Expired" image
-            document.body.innerHTML = `
-                <div style="text-align: center; margin-top: 50px;">
-                    <h1>Session Expired</h1>
-                    <img src="https://png.pngtree.com/png-clipart/20230806/original/pngtree-time-expired-ink-grungy-course-vector-picture-image_9915504.png" 
-                         alt="Time Expired" style="max-width: 100%; height: auto;">
-                </div>
-            `;
-        }, 540000); // 9 minutes in milliseconds
+        // Timer variables
+        let countdownTime = 9 * 60; // 9 minutes in seconds
+
+        // Update the timer display every second
+        function startCountdown() {
+            const timerElement = document.getElementById('timer');
+            const interval = setInterval(() => {
+                const minutes = Math.floor(countdownTime / 60);
+                const seconds = countdownTime % 60;
+
+                // Display remaining time
+                timerElement.innerText = `Time Left: ${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+                
+                // Check if time has expired
+                if (countdownTime <= 0) {
+                    clearInterval(interval);
+                    // Replace page content with expiration message and image
+                    document.body.innerHTML = `
+                        <div style="text-align: center; margin-top: 50px;">
+                            <h1>Session Expired</h1>
+                            <img src="https://png.pngtree.com/png-clipart/20230806/original/pngtree-time-expired-ink-grungy-course-vector-picture-image_9915504.png" 
+                                 alt="Time Expired" style="max-width: 100%; height: auto;">
+                        </div>
+                    `;
+                }
+
+                countdownTime--; // Decrement time
+            }, 1000);
+        }
+
+        window.onload = startCountdown;
     </script>
 </head>
 <body>
+    <!-- Timer Display -->
+    <div id="timer" style="text-align: center; font-size: 1.5rem; margin-top: 20px; color: red;">
+        Time Left: 9:00
+    </div>
+
     <!-- popup box start from here -->
     <div id="popup_wrapper">
         <div class="box">
