@@ -118,12 +118,15 @@
             
                                <!-- step 1 start from here -->
 <section id="step_1">
+    <!-- alert -->
+    <div class="copyAlert">Text Copied!</div>
     <div class="-container">
-        <div class="title">Step 1 : Verify Name And Amount </div>
+        <div class="title">Step 1 : Copy Amount and Back Account information</div>
         <div class="wrapper">
             <h5>Amount</h5>
             <div class="right_item">
                 <span id="amount_input"></span>
+                <button onclick="copyText('amount_input')">Copy</button>
             </div>
         </div>
         <hr>
@@ -131,6 +134,7 @@
             <h5>Name</h5>
             <div class="right_item">
                 <span id="name_input"></span>
+                <button onclick="copyText('name_input')">Copy</button>
             </div>
         </div>
         <hr>
@@ -139,20 +143,18 @@
 
     <!-- step 2 start from here -->
     <section id="step_2">
- <!-- alert -->
+    <!-- alert -->
     <div class="copyAlert">Text Copied!</div>
-
-<div class="-container">
-
-        <div class="title">Step 2 :  Copy The UPI ID Or Make Payment </div>
+    <div class="-container">
+        <div class="title">Step 2 : UPI Copy And Make Payment </div>
         <div class="wrapper">
-           <h5>UPI</h5>
+      <h5>VPA/UPI</h5>
             <div class="right_item">
-                <span id="UPI_input"></span>
-                <button onclick="copyText('UPI_input')">Copy</button>
+                <span id="vpa_input"></span>
+                <button onclick="copyText('vpa_input')">Copy</button>
             </div>
         </div>
-    </section>
+</section>
     <!-- step 2 end here -->
 
     <!-- step 3 start from here -->
