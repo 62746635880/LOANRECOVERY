@@ -104,36 +104,37 @@
         Time Left: 6:00
     </div>
             
-    <!-- step 1 start from here -->
-    <section id="step_1">
-        <div class="-container">
-            <div class="title">Step 1 : Verify Your Name And Loan Amount</div>
-            <div class="wrapper">
-                <div class="center">
-                    <h5>Name:</h5>
-                    <input type="text" id="clientName" placeholder="Enter Your Name">
-                </div>
+                   <!-- step 1 start from here -->
+<section id="step_1">
+    <div class="-container">
+        <div class="title">Step 1 : Copy Amount and Back Account information</div>
+        <div class="wrapper">
+            <h5>Amount</h5>
+            <div class="center">
+                <span id="amount_input"></span>
             </div>
-            <hr>
-            <div class="wrapper">
-                <div class="center">
-                    <h5>Loan Amount:</h5>
-                    <span id="amntInput"></span>
-                </div>
+        </div>
+        <hr>
+        <div class="wrapper">
+            <h5>Name</h5>
+            <div class="center">
+                <span id="name_input"></span>
             </div>
-            <hr>
-    </section>
-    <!-- step 1 end here -->
+        </div>
+</section>
+                <!-- step 1 end here -->
 
     <!-- step 2 start from here -->
+    <!-- alert -->
+    <div class="copyAlert">Text Copied!</div>
     <section id="step_2">
         <div class="-container">
-            <div class="title">Step 2 : Copy The UPI ID </div>
-            <div class="wrapper">
-                <div class="center">
-                    <span id="vpaInput"></span>
-                    <button onclick="copyText('vpaInput')">Copy</button>
-                </div>
+ <div class="title">Step 2 : Copy The UPI ID Or Make Payment </div>
+           <div class="wrapper">
+            <h5>UPI ID</h5>
+            <div class="right_item">
+                <span id="amount_input"></span>
+                <button onclick="copyText('UPI_input')">Copy</button>
             </div>
         </div>
     </section>
