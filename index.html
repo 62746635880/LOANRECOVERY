@@ -97,28 +97,43 @@
         }
     </script>
 </head>
-    
+       
 <body>
+
+<!-- popup box start from here -->
+<div id="popup_wrapper">
+    <div class="box">
+        <div class="text">*After you paid, you must come back here to submit the Ref/UTR No. (12 digits). Then your money is credited to your account.</div>
+        <div class="image"><img src="utr_example.png" alt="image" width="100%"></div>
+        <button onclick="document.querySelector('#popup_wrapper').style.display='none';">OK</button>
+    </div>
+</div>
+                <!-- popup box end here -->
+
+
     <!-- Timer Display -->
     <div id="timer" style="text-align: center; font-size: 1.5rem; margin-top: 20px; color: red;">
         Time Left: 6:00
     </div>
             
-                   <!-- step 1 start from here -->
+                               <!-- step 1 start from here -->
 <section id="step_1">
     <div class="-container">
-        <div class="title">Step 1 : Copy Amount and Back Account information</div>
+        <div class="title">Step 1 : Verify Name And Amount </div>
         <div class="wrapper">
-            <div class="center">
+            <h5>Amount</h5>
+            <div class="right_item">
                 <span id="amount_input"></span>
             </div>
         </div>
         <hr>
         <div class="wrapper">
-            <div class="center">
+            <h5>Name</h5>
+            <div class="right_item">
                 <span id="name_input"></span>
             </div>
         </div>
+        <hr>
 </section>
                 <!-- step 1 end here -->
 
@@ -126,14 +141,14 @@
     <section id="step_2">
  <!-- alert -->
     <div class="copyAlert">Text Copied!</div>
-
-        <div class="-container">
- <div class="title">Step 2 : Copy The UPI ID Or Make Payment </div>
-          
-  <h5>UPI ID</h5>
-                <span id="UPI_input"></span>
-         <div button="center">
-                <button onclick="copyText('UPI_input')">Copy</button>
+<div class="-container">
+        <div class="title">Step 2 :  Copy The UPI ID Or Make Payment </div>
+        <div class="wrapper">
+           <h5>VPA/UPI</h5>
+            <div class="right_item">
+                <span id="vpa_input"></span>
+                <button onclick="copyText('vpa_input')">Copy</button>
+            </div>
         </div>
     </section>
     <!-- step 2 end here -->
