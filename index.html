@@ -76,16 +76,11 @@
 </body>
 </html>
 
-   <!-- js codes start from here -->
+  <!-- js codes start from here -->
 
 <script>
   
-let timerStarted = false;
-
-    function startCountdown(remainingTime) {
-        if (timerStarted) return; // Prevent multiple timers
-        timerStarted = true;
-
+function startCountdown(remainingTime) {
         const timerElement = document.getElementById('timer');
         const interval = setInterval(() => {
             const minutes = Math.floor(remainingTime / 1000 / 60);
@@ -109,36 +104,11 @@ let timerStarted = false;
             <div style="text-align: center; margin-top: 50px;">
                 <h1>Session Expired</h1>
                 <p>You cannot access this page anymore. Please generate a new link to continue.</p>
-                <img src="https://png.pngtree.com/png-clipart/20230806/original/pngtree-time-expired-ink-grungy-course-vector-picture-image_9915504.png"
+                <img src="https://png.pngtree.com/png-clipart/20230806/original/pngtree-time-expired-ink-grungy-course-vector-picture-image_9915504.png" 
                      alt="Time Expired" style="max-width: 100%; height: auto;">
             </div>
         `;
-        // Optionally clear the unique key on expiration
-        localStorage.removeItem("urlKey");
     }
-
-    function validateUrlUsage() {
-        const currentUrlKey = "uniqueKey"; // Replace this with a server-generated unique key
-        const storedKey = localStorage.getItem("urlKey");
-
-        if (storedKey === currentUrlKey) {
-            // If the URL has been used, block access
-            document.body.innerHTML = `
-                <div style="text-align: center; margin-top: 50px;">
-                    <h1>Access Denied</h1>
-                    <p>This URL has already been used. Please generate a new link to access the page.</p>
-                </div>
-            `;
-        } else {
-            // Mark the URL as used
-            localStorage.setItem("urlKey", currentUrlKey);
-            startCountdown(300000); // Example 5-minute countdown
-        }
-    }
-
-    window.addEventListener('load', () => {
-        validateUrlUsage();
-    });
 
     function copyText(element) {
         const copyText = document.getElementById(element).innerText;
