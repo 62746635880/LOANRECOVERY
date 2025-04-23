@@ -43,9 +43,12 @@ section {padding: 10px;}
 
     /* codes for step 2 */
 #step_2 .title {background: #2AB5FF; padding: 8px; margin: 3px; color: #fff; font-size: 17px;}
-#step_2 .item {padding: 5px 10px;}
-#step_2 .item i {color: #FF5500;}
-
+#step_2 .wrapper {display: flex; justify-content: space-between; padding: 8px 15px; font-size: 18px;}
+#step_2 .wrapper {display: flex; justify-content: space-between; padding: 8px; font-size: 15px;}
+#step_2 .wrapper h5 {align-self: center;}
+#step_2 .wrapper .right_item {display: flex;}
+#step_2 .wrapper .right_item span {color: #F1A532; margin: 0 10px; white-space: nowrap; overflow: hidden; font-size: 16px; align-self: center; max-width: 150px;}
+#step_2 .wrapper .right_item button {cursor: pointer; background: #3C9CFF; color: #fff; border: none; padding: 5px 15px; font-size: 10px; border-radius: 3px;}
     /* codes for step 3 */
 #step_3 {position: relative; margin-bottom: 50px;}
 #step_3 .title {background: #2AB5FF; padding: 8px; margin: 3px; color: #fff; font-size: 17px;}
