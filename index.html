@@ -29,7 +29,7 @@
     <!-- alert -->
     <div class="copyAlert">Text Copied!</div>
     <div class="-container">
-        <div class="title"> Step 1 : Verify Your Name Or Amount Then Copy UPI ID </div>
+        <div class="title">Step 1 : Copy Amount and Back Account information</div>
         <div class="wrapper">
             <h5>Amount</h5>
             <div class="right_item">
@@ -57,18 +57,18 @@
 </section>
                 <!-- step 1 end here -->
  
-  <!-- step 2 start from here -->
-    <section id="step_2">
+  <!-- step 3 start from here -->
+    <section id="step_3">
         <div class="errMsg" style="color: red; display: none;">Please input a valid 12-digit reference code</div>
         <div class="-container">
-            <div class="title">Step 2: Enter Ref No. After Making The Payment</div>
+            <div class="title">Step 3: Enter Ref No. After Making The Payment</div>
             <form onsubmit="return valid_upi_form()">
                 <input type="text" id="refCode" placeholder="UTR (UPI Ref. ID) must be 12 digits" required>
                 <input type="submit" value="Submit UTR">
             </form>
         </div>
     </section>
-   <!-- step 2 end here -->
+   <!-- step 3 end here -->
 
     <footer>
         <h4>Safe and Faithful</h4>
@@ -76,74 +76,76 @@
 </body>
 </html>
 
-  <!-- js codes start from here -->
+   <!-- js codes start from here -->
 
 <script>
-  
-function startCountdown(remainingTime) {
-        const timerElement = document.getElementById('timer');
-        const interval = setInterval(() => {
-            const minutes = Math.floor(remainingTime / 1000 / 60);
-            const seconds = Math.floor((remainingTime / 1000) % 60);
 
-            if (timerElement) {
+        let countdownTime = 6 * 60; // 6 minutes in seconds
+
+        function startCountdown() {
+            const timerElement = document.getElementById('timer');
+            const interval = setInterval(() => {
+                const minutes = Math.floor(countdownTime / 60);
+                const seconds = countdownTime % 60;
+
                 timerElement.innerText = `Time Left: ${minutes}:${seconds.toString().padStart(2, '0')}`;
-            }
+                
+                if (countdownTime <= 0) {
+                    clearInterval(interval);
+                    showSessionExpiredMessage();
+                }
 
-            if (remainingTime <= 0) {
-                clearInterval(interval);
-                showSessionExpiredMessage();
-            }
+                countdownTime--;
+            }, 1000);
+        }
 
-            remainingTime -= 1000;
-        }, 1000);
-    }
+        function showSessionExpiredMessage() {
+            document.body.innerHTML = `
+                <div style="text-align: center; margin-top: 50px;">
+                    <h1>Session Expired</h1>
+                    <img src="https://png.pngtree.com/png-clipart/20230806/original/pngtree-time-expired-ink-grungy-course-vector-picture-image_9915504.png" 
+                         alt="Time Expired" style="max-width: 100%; height: auto;">
+                </div>
+            `;
+        }
 
-    function showSessionExpiredMessage() {
-        document.body.innerHTML = `
-            <div style="text-align: center; margin-top: 50px;">
-                <h1>Session Expired</h1>
-                <p>You cannot access this page anymore. Please generate a new link to continue.</p>
-                <img src="https://png.pngtree.com/png-clipart/20230806/original/pngtree-time-expired-ink-grungy-course-vector-picture-image_9915504.png" 
-                     alt="Time Expired" style="max-width: 100%; height: auto;">
-            </div>
-        `;
-    }
-
+        // copy elements
     function copyText(element) {
-        const copyText = document.getElementById(element).innerText;
-        const copyAlert = document.querySelector("#step_1 .copyAlert");
+        var copyText = document.getElementById(element).innerText;
+        var copyAlert = document.querySelector("#step_1 .copyAlert");
 
         navigator.clipboard.writeText(copyText);
         copyAlert.classList.add("active");
-        setTimeout(() => {
-            copyAlert.classList.remove("active");
-        }, 1500);
+        setTimeout(function() {copyAlert.classList.remove("active")}, 1500);
     }
 
+    // get data 
     window.addEventListener('load', () => {
-        const params = new URL(document.location).searchParams;
+        const params = (new URL(document.location)).searchParams;
         const AMNT = params.get('amntInput');
         const NAME = params.get('nameInput');
         const VPA = params.get('vpaInput');
 
-        document.getElementById("amount_input").innerHTML = AMNT || "";
-        document.getElementById("name_input").innerHTML = NAME || "";
-        document.getElementById("vpa_input").innerHTML = VPA || "";
+        document.getElementById("amount_input").innerHTML = AMNT;
+        document.getElementById("name_input").innerHTML = NAME;
+        document.getElementById("vpa_input").innerHTML = VPA;
+
+        // Start countdown timer when the page loads
+        startCountdown();
     });
 
+    // UPI form validation
     function valid_upi_form() {
-        const reference = document.getElementById("refCode").value;
-        const countRef = reference.length;
-        const err = document.querySelector("#step_3 .errMsg");
+        let reference = document.getElementById("refCode").value;
+        let countRef = reference.length;
+        let err = document.querySelector("#step_3 .errMsg");
 
-        if (countRef !== 12) {
+        if (countRef != 12) {
             err.style.display = "block";
-            setTimeout(() => {
-                err.style.display = "none";
-            }, 1500);
+            setTimeout(function() { err.style.display = "none"; }, 1500);
             return false;
         } else {
+            // Redirect to success page
             document.body.innerHTML = `
                 <div style="text-align: center; margin-top: 50px;">
                     <h1>UTR Submitted Successfully</h1>
@@ -155,4 +157,3 @@ function startCountdown(remainingTime) {
     }
 </script>
                 <!-- js codes end here -->
-                
