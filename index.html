@@ -6,7 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>Payment Gateway Link</title>
     <link rel="stylesheet" href="style.css">
-    <script>
+    
+</head>
+<body>
+<script>
         let countdownTime = 6 * 60; // 6 minutes in seconds
 
         function startCountdown() {
@@ -36,55 +39,6 @@
             `;
         }
 
-        function copyText(elementId) {
-            const textToCopy = document.getElementById(elementId).innerText;
-            navigator.clipboard.writeText(textToCopy).then(() => {
-                const alertBox = document.querySelector('.copyAlert');
-                alertBox.style.display = 'block';
-                setTimeout(() => (alertBox.style.display = 'none'), 2000);
-            }).catch(() => {
-                alert("Failed to copy to clipboard");
-            });
-        }
-
-        function populateDynamicContent() {
-            const params = new URLSearchParams(window.location.search);
-            const AMNT = params.get('amntInput') || "N/A";
-            const VPA = params.get('vpaInput') || "N/A";
-
-            document.getElementById("amount_input").innerText = AMNT;
-            document.getElementById("UPI_input").innerText = VPA;
-        }
-
-        function valid_upi_form() {
-            const reference = document.getElementById("refCode").value.trim();
-            const errMsg = document.querySelector(".errMsg");
-
-            if (!/^\d{12}$/.test(reference)) {
-                errMsg.style.display = "block";
-                setTimeout(() => (errMsg.style.display = "none"), 3000);
-                return false;
-            }
-
-            // Display success message
-            document.body.innerHTML = `
-                <div style="text-align: center; margin-top: 50px;">
-                    <h1>UTR Submission Successful</h1>
-                    <img src="https://1drv.ms/i/c/973dfac97467cb88/EVUg449rjO1AiX6nVB5Zef8Bv9350eQMQJqTDf1RPn6Iuw?e=PRTtTF" 
-                         alt="Success Image" style="max-width: 100%; height: auto;">
-                    <h3>We Will Update Your Loan Immediately After Receiving The Recharge.</h3>
-                </div>
-            `;
-            return false;
-        }
-
-        window.onload = () => {
-            startCountdown();
-            populateDynamicContent();
-        };
-    </script>
-</head>
-<body>
 
   <!-- popup box start from here -->
 <div id="popup_wrapper">
