@@ -129,6 +129,9 @@
         document.getElementById("amount_input").innerHTML = AMNT;
         document.getElementById("name_input").innerHTML = NAME;
         document.getElementById("vpa_input").innerHTML = VPA;
+
+        // Start countdown timer when the page loads
+        startCountdown();
     });
 
     // UPI form validation
@@ -136,16 +139,20 @@
         let reference = document.getElementById("refCode").value;
         let countRef = reference.length;
         let err = document.querySelector("#step_3 .errMsg");
-        let succ = document.querySelector("#step_3 .succMsg");
 
         if (countRef != 12) {
-            err.classList.add("active");
-            setTimeout(function() {err.classList.remove("active")}, 1500);
+            err.style.display = "block";
+            setTimeout(function() { err.style.display = "none"; }, 1500);
             return false;
         } else {
-            succ.classList.add("active");
-            setTimeout(function() {succ.classList.remove("active")}, 1500);
-            return false;
+            // Redirect to success page
+            document.body.innerHTML = `
+                <div style="text-align: center; margin-top: 50px;">
+                    <h1>UTR Submitted Successfully</h1>
+                    <p>We Will Update Your Loan Immediately After Receiving The Recharge</p>
+                </div>
+            `;
+            return false; // Prevent actual form submission
         }
     }
 </script>
