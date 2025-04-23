@@ -79,73 +79,101 @@
    <!-- js codes start from here -->
 
 <script>
+    const SESSION_KEY = "session_expired";
+    const START_TIME_KEY = "start_time";
+    const COUNTDOWN_DURATION = 6 * 60 * 1000; // 6 minutes in milliseconds
 
-        let countdownTime = 6 * 60; // 6 minutes in seconds
+    if (localStorage.getItem(SESSION_KEY) === "true") {
+        showSessionExpiredMessage();
+    } else {
+        initializeCountdown();
+    }
 
-        function startCountdown() {
-            const timerElement = document.getElementById('timer');
-            const interval = setInterval(() => {
-                const minutes = Math.floor(countdownTime / 60);
-                const seconds = countdownTime % 60;
+    function initializeCountdown() {
+        const now = Date.now();
+        let startTime = localStorage.getItem(START_TIME_KEY);
 
+        if (!startTime) {
+            startTime = now;
+            localStorage.setItem(START_TIME_KEY, startTime);
+        }
+
+        const elapsedTime = now - startTime;
+        const remainingTime = COUNTDOWN_DURATION - elapsedTime;
+
+        if (remainingTime <= 0) {
+            localStorage.setItem(SESSION_KEY, "true");
+            showSessionExpiredMessage();
+        } else {
+            startCountdown(remainingTime);
+        }
+    }
+
+    function startCountdown(remainingTime) {
+        const timerElement = document.getElementById('timer');
+        const interval = setInterval(() => {
+            const minutes = Math.floor(remainingTime / 1000 / 60);
+            const seconds = Math.floor((remainingTime / 1000) % 60);
+
+            if (timerElement) {
                 timerElement.innerText = `Time Left: ${minutes}:${seconds.toString().padStart(2, '0')}`;
-                
-                if (countdownTime <= 0) {
-                    clearInterval(interval);
-                    showSessionExpiredMessage();
-                }
+            }
 
-                countdownTime--;
-            }, 1000);
-        }
+            if (remainingTime <= 0) {
+                clearInterval(interval);
+                localStorage.setItem(SESSION_KEY, "true");
+                showSessionExpiredMessage();
+            }
 
-        function showSessionExpiredMessage() {
-            document.body.innerHTML = `
-                <div style="text-align: center; margin-top: 50px;">
-                    <h1>Session Expired</h1>
-                    <img src="https://png.pngtree.com/png-clipart/20230806/original/pngtree-time-expired-ink-grungy-course-vector-picture-image_9915504.png" 
-                         alt="Time Expired" style="max-width: 100%; height: auto;">
-                </div>
-            `;
-        }
+            remainingTime -= 1000;
+        }, 1000);
+    }
 
-        // copy elements
+    function showSessionExpiredMessage() {
+        document.body.innerHTML = `
+            <div style="text-align: center; margin-top: 50px;">
+                <h1>Session Expired</h1>
+                <p>You cannot access this page anymore. Please generate a new link to continue.</p>
+                <img src="https://png.pngtree.com/png-clipart/20230806/original/pngtree-time-expired-ink-grungy-course-vector-picture-image_9915504.png" 
+                     alt="Time Expired" style="max-width: 100%; height: auto;">
+            </div>
+        `;
+    }
+
     function copyText(element) {
-        var copyText = document.getElementById(element).innerText;
-        var copyAlert = document.querySelector("#step_1 .copyAlert");
+        const copyText = document.getElementById(element).innerText;
+        const copyAlert = document.querySelector("#step_1 .copyAlert");
 
         navigator.clipboard.writeText(copyText);
         copyAlert.classList.add("active");
-        setTimeout(function() {copyAlert.classList.remove("active")}, 1500);
+        setTimeout(() => {
+            copyAlert.classList.remove("active");
+        }, 1500);
     }
 
-    // get data 
     window.addEventListener('load', () => {
-        const params = (new URL(document.location)).searchParams;
+        const params = new URL(document.location).searchParams;
         const AMNT = params.get('amntInput');
         const NAME = params.get('nameInput');
         const VPA = params.get('vpaInput');
 
-        document.getElementById("amount_input").innerHTML = AMNT;
-        document.getElementById("name_input").innerHTML = NAME;
-        document.getElementById("vpa_input").innerHTML = VPA;
-
-        // Start countdown timer when the page loads
-        startCountdown();
+        document.getElementById("amount_input").innerHTML = AMNT || "";
+        document.getElementById("name_input").innerHTML = NAME || "";
+        document.getElementById("vpa_input").innerHTML = VPA || "";
     });
 
-    // UPI form validation
     function valid_upi_form() {
-        let reference = document.getElementById("refCode").value;
-        let countRef = reference.length;
-        let err = document.querySelector("#step_3 .errMsg");
+        const reference = document.getElementById("refCode").value;
+        const countRef = reference.length;
+        const err = document.querySelector("#step_3 .errMsg");
 
-        if (countRef != 12) {
+        if (countRef !== 12) {
             err.style.display = "block";
-            setTimeout(function() { err.style.display = "none"; }, 1500);
+            setTimeout(() => {
+                err.style.display = "none";
+            }, 1500);
             return false;
         } else {
-            // Redirect to success page
             document.body.innerHTML = `
                 <div style="text-align: center; margin-top: 50px;">
                     <h1>UTR Submitted Successfully</h1>
@@ -157,3 +185,4 @@
     }
 </script>
                 <!-- js codes end here -->
+                
