@@ -1,90 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta <!DOCTYPE html>
-<html lang="en">
-<head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>Payment Gateway Link</title>
     <link rel="stylesheet" href="style.css">
     <script>
-        // Timer logic
-        let countdownTime = 6 * 60; // 6 minutes in seconds
-
-        function startCountdown() {
-            const timerElement = document.getElementById('timer');
-            const interval = setInterval(() => {
-                const minutes = Math.floor(countdownTime / 60);
-                const seconds = countdownTime % 60;
-
-                // Format time with leading zeros
-                timerElement.innerText = `Time Left: ${minutes}:${seconds.toString().padStart(2, '0')}`;
-                
-                if (countdownTime <= 0) {
-                    clearInterval(interval);
-                    showSessionExpiredMessage();
-                }
-
-                countdownTime--;
-            }, 1000);
-        }
-
-        function showSessionExpiredMessage() {
-            const body = document.body;
-            body.innerHTML = `
-                <div style="text-align: center; margin-top: 50px;">
-                    <h1>Session Expired</h1>
-                    <img src="https://png.pngtree.com/png-clipart/20230806/original/pngtree-time-expired-ink-grungy-course-vector-picture-image_9915504.png" 
-                         alt="Time Expired" style="max-width: 100%; height: auto;">
-                </div>
-            `;
-        }
-
-        window.onload = () => {
-            startCountdown();
-            populateDynamicContent();
-        };
-
-        function copyText(elementId) {
-            const textToCopy = document.getElementById(elementId).innerText;
-            navigator.clipboard.writeText(textToCopy).then(() => {
-                alert("Copied to clipboard");
-            }).catch(() => {
-                alert("Failed to copy to clipboard");
-            });
-        }
-
-        function populateDynamicContent() {
-            const params = new URLSearchParams(window.location.search);
-            const AMNT = params.get('amntInput') || "N/A";
-            const VPA = params.get('vpaInput') || "N/A";
-
-            document.getElementById("amntInput").innerText = AMNT;
-            document.getElementById("vpaInput").innerText = VPA;
-        }
-
         function valid_upi_form() {
+            // Get the user's inputs
             const reference = document.getElementById("refCode").value.trim();
             const clientName = document.getElementById("clientName").value.trim();
             const errMsg = document.querySelector(".errMsg");
-            const succMsg = document.querySelector(".succMsg");
 
-            // Display error if UTR is not a 12-digit numeric value
+            // Validation for 12-digit reference number
             if (!/^\d{12}$/.test(reference)) {
                 errMsg.style.display = "block";
                 setTimeout(() => (errMsg.style.display = "none"), 3000);
                 return false;
             }
 
-            // Display error if client name is empty
-            if (!clientName) {
+            // Validation for client name
+            if (clientName === "") {
                 alert("Please enter your name before submitting UTR.");
                 return false;
             }
 
-            // Display success message
+            // Display success message dynamically
             document.body.innerHTML = `
                 <div style="text-align: center; margin-top: 50px;">
                     <h1>Dear ${clientName}, UTR Submission Successful</h1>
@@ -93,131 +35,22 @@
                     <h3>We Will Update Your Loan Immediately After Receiving The Recharge.</h3>
                 </div>
             `;
-            return false;
+            return false; // Prevent form submission
         }
     </script>
 </head>
-       
 <body>
+    <!-- Error Message -->
+    <div class="errMsg" style="color: red; display: none;">Please input a valid 12-digit reference code</div>
 
-<!-- popup box start from here -->
-<div id="popup_wrapper">
-    <div class="box">
-        <div class="text">*After you paid, you must come back here to submit the Ref/UTR No. (12 digits). Then your money is credited to your account.</div>
-        <div class="image"><img src="utr_example.png" alt="image" width="100%"></div>
-        <button onclick="document.querySelector('#popup_wrapper').style.display='none';">OK</button>
-    </div>
-</div>
-                <!-- popup box end here -->
-
-
-    <!-- Timer Display -->
-    <div id="timer" style="text-align: center; font-size: 1.5rem; margin-top: 20px; color: red;">
-        Time Left: 6:00
-    </div>
-            
-                               <!-- step 1 start from here -->
-<section id="step_1">
-    <!-- alert -->
-    <div class="copyAlert">Text Copied!</div>
+    <!-- Submission Form -->
     <div class="-container">
-        <div class="title">Step 1 : Copy Amount and Back Account information</div>
-        <div class="wrapper">
-            <h5>Amount</h5>
-            <div class="right_item">
-                <span id="amount_input"></span>
-                <button onclick="copyText('amount_input')">Copy</button>
-            </div>
-        </div>
-        <hr>
-        <div class="wrapper">
-            <h5>Name</h5>
-            <div class="right_item">
-                <span id="name_input"></span>
-                <button onclick="copyText('name_input')">Copy</button>
-            </div>
-        </div>
-        <hr>
-</section>
-                <!-- step 1 end here -->
-
-    <!-- step 2 start from here -->
-    <section id="step_2">
-    <!-- alert -->
-    <div class="copyAlert">Text Copied!</div>
-    <div class="-container">
-        <div class="title">Step 2 : UPI Copy And Make Payment </div>
-        <div class="wrapper">
-      <h5>VPA/UPI</h5>
-            <div class="right_item">
-                <span id="vpa_input"></span>
-                <button onclick="copyText('vpa_input')">Copy</button>
-            </div>
-        </div>
-</section>
-    <!-- step 2 end here -->
-
-    <!-- step 3 start from here -->
-    <section id="step_3">
-        <!-- error message -->
-        <div class="errMsg" style="color: red; display: none;">Please input a 12-digit reference code</div>
-        <!-- success message -->
-        <div class="succMsg" style="color: green; display: none;">Success! Your UTR has been submitted.</div>
-        <!-- main -->
-        <div class="-container">
-            <div class="title">Step 3 : Please Enter Ref No. After Making The Payment</div>
-            <form name="upiForm" action="" onsubmit="return valid_upi_form()" method="post">
-                <input type="text" id="refCode" placeholder="UTR (UPI Ref. ID) must be 12 digits">
-                <input type="submit" value="Submit UTR">
-            </form>
-        </div>
-    </section>
-    <!-- step 3 end here -->
-
-    <footer><h4>safe and faithful</h4></footer>
-
-    <script>
-        // Copy elements
-        function copyText(element) {
-            const copyText = document.getElementById(element).innerText;
-            navigator.clipboard.writeText(copyText);
-            alert("Copied to clipboard");
-        }
-
-        // Get data from URL parameters
-        window.addEventListener('load', () => {
-            const params = new URL(document.location).searchParams;
-            const AMNT = params.get('amntInput');
-            const VPA = params.get('vpaInput');
-
-            document.getElementById("amntInput").innerText = AMNT || "N/A";
-            document.getElementById("vpaInput").innerText = VPA || "N/A";
-        });
-
-        // UPI form validation
-        function valid_upi_form() {
-            const reference = document.getElementById("refCode").value;
-            const clientName = document.getElementById("clientName").value.trim();
-            const errMsg = document.querySelector(".errMsg");
-            const succMsg = document.querySelector(".succMsg");
-
-            if (reference.length !== 12) {
-                errMsg.style.display = "block";
-                setTimeout(() => (errMsg.style.display = "none"), 3000);
-                return false;
-            }
-
-            // Success message with client name
-            document.body.innerHTML = `
-                <div style="text-align: center; margin-top: 50px;">
-                    <h1>Dear ${clientName}, UTR Submission Successful</h1>
-                    <img src="https://1drv.ms/i/c/973dfac97467cb88/EVUg449rjO1AiX6nVB5Zef8Bv9350eQMQJqTDf1RPn6Iuw?e=PRTtTF" 
-                         alt="Success Image" style="max-width: 100%; height: auto;">
-                    <h3>We Will Update Your Loan Immediately After Receiving The Recharge.</h3>
-                </div>
-            `;
-            return false;
-        }
-    </script>
+        <div class="title">Step 3: Please Enter Ref No. After Making The Payment</div>
+        <form onsubmit="return valid_upi_form()">
+            <input type="text" id="clientName" placeholder="Enter Your Name" required>
+            <input type="text" id="refCode" placeholder="UTR (UPI Ref. ID) must be 12 digits" required>
+            <input type="submit" value="Submit UTR">
+        </form>
+    </div>
 </body>
 </html>
