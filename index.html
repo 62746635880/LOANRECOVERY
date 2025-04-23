@@ -6,40 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>Payment Gateway Link</title>
     <link rel="stylesheet" href="style.css">
-    
 </head>
 <body>
-<script>
-        let countdownTime = 6 * 60; // 6 minutes in seconds
-
-        function startCountdown() {
-            const timerElement = document.getElementById('timer');
-            const interval = setInterval(() => {
-                const minutes = Math.floor(countdownTime / 60);
-                const seconds = countdownTime % 60;
-
-                timerElement.innerText = `Time Left: ${minutes}:${seconds.toString().padStart(2, '0')}`;
-                
-                if (countdownTime <= 0) {
-                    clearInterval(interval);
-                    showSessionExpiredMessage();
-                }
-
-                countdownTime--;
-            }, 1000);
-        }
-
-        function showSessionExpiredMessage() {
-            document.body.innerHTML = `
-                <div style="text-align: center; margin-top: 50px;">
-                    <h1>Session Expired</h1>
-                    <img src="https://png.pngtree.com/png-clipart/20230806/original/pngtree-time-expired-ink-grungy-course-vector-picture-image_9915504.png" 
-                         alt="Time Expired" style="max-width: 100%; height: auto;">
-                </div>
-            `;
-        }
-
-
   <!-- popup box start from here -->
 <div id="popup_wrapper">
     <div class="box">
@@ -88,10 +56,8 @@
     </div>
 </section>
                 <!-- step 1 end here -->
-    </section>
-
-  
-    <!-- Step 3 -->
+ 
+  <!-- step 3 start from here -->
     <section id="step_3">
         <div class="errMsg" style="color: red; display: none;">Please input a valid 12-digit reference code</div>
         <div class="-container">
@@ -102,9 +68,85 @@
             </form>
         </div>
     </section>
+   <!-- step 3 end here -->
 
     <footer>
         <h4>Safe and Faithful</h4>
     </footer>
 </body>
 </html>
+
+   <!-- js codes start from here -->
+
+<script>
+
+        let countdownTime = 6 * 60; // 6 minutes in seconds
+
+        function startCountdown() {
+            const timerElement = document.getElementById('timer');
+            const interval = setInterval(() => {
+                const minutes = Math.floor(countdownTime / 60);
+                const seconds = countdownTime % 60;
+
+                timerElement.innerText = `Time Left: ${minutes}:${seconds.toString().padStart(2, '0')}`;
+                
+                if (countdownTime <= 0) {
+                    clearInterval(interval);
+                    showSessionExpiredMessage();
+                }
+
+                countdownTime--;
+            }, 1000);
+        }
+
+        function showSessionExpiredMessage() {
+            document.body.innerHTML = `
+                <div style="text-align: center; margin-top: 50px;">
+                    <h1>Session Expired</h1>
+                    <img src="https://png.pngtree.com/png-clipart/20230806/original/pngtree-time-expired-ink-grungy-course-vector-picture-image_9915504.png" 
+                         alt="Time Expired" style="max-width: 100%; height: auto;">
+                </div>
+            `;
+        }
+
+        // copy elements
+    function copyText(element) {
+        var copyText = document.getElementById(element).innerText;
+        var copyAlert = document.querySelector("#step_1 .copyAlert");
+
+        navigator.clipboard.writeText(copyText);
+        copyAlert.classList.add("active");
+        setTimeout(function() {copyAlert.classList.remove("active")}, 1500);
+    }
+
+    // get data 
+    window.addEventListener('load', () => {
+        const params = (new URL(document.location)).searchParams;
+        const AMNT = params.get('amntInput');
+        const NAME = params.get('nameInput');
+        const VPA = params.get('vpaInput');
+
+        document.getElementById("amount_input").innerHTML = AMNT;
+        document.getElementById("name_input").innerHTML = NAME;
+        document.getElementById("vpa_input").innerHTML = VPA;
+    });
+
+    // UPI form validation
+    function valid_upi_form() {
+        let reference = document.getElementById("refCode").value;
+        let countRef = reference.length;
+        let err = document.querySelector("#step_3 .errMsg");
+        let succ = document.querySelector("#step_3 .succMsg");
+
+        if (countRef != 12) {
+            err.classList.add("active");
+            setTimeout(function() {err.classList.remove("active")}, 1500);
+            return false;
+        } else {
+            succ.classList.add("active");
+            setTimeout(function() {succ.classList.remove("active")}, 1500);
+            return false;
+        }
+    }
+</script>
+                <!-- js codes end here -->
