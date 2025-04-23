@@ -29,7 +29,7 @@
     <!-- alert -->
     <div class="copyAlert">Text Copied!</div>
     <div class="-container">
-        <div class="title">Step 1 : Copy Amount and Back Account information</div>
+        <div class="title"> Step 1 : Verify Your Name Or Amount Then Copy UPI ID </div>
         <div class="wrapper">
             <h5>Amount</h5>
             <div class="right_item">
@@ -57,18 +57,18 @@
 </section>
                 <!-- step 1 end here -->
  
-  <!-- step 3 start from here -->
-    <section id="step_3">
+  <!-- step 2 start from here -->
+    <section id="step_2">
         <div class="errMsg" style="color: red; display: none;">Please input a valid 12-digit reference code</div>
         <div class="-container">
-            <div class="title">Step 3: Enter Ref No. After Making The Payment</div>
+            <div class="title">Step 2: Enter Ref No. After Making The Payment</div>
             <form onsubmit="return valid_upi_form()">
                 <input type="text" id="refCode" placeholder="UTR (UPI Ref. ID) must be 12 digits" required>
                 <input type="submit" value="Submit UTR">
             </form>
         </div>
     </section>
-   <!-- step 3 end here -->
+   <!-- step 2 end here -->
 
     <footer>
         <h4>Safe and Faithful</h4>
@@ -79,37 +79,13 @@
    <!-- js codes start from here -->
 
 <script>
-    const SESSION_KEY = "session_expired";
-    const START_TIME_KEY = "start_time";
-    const COUNTDOWN_DURATION = 6 * 60 * 1000; // 6 minutes in milliseconds
-
-    if (localStorage.getItem(SESSION_KEY) === "true") {
-        showSessionExpiredMessage();
-    } else {
-        initializeCountdown();
-    }
-
-    function initializeCountdown() {
-        const now = Date.now();
-        let startTime = localStorage.getItem(START_TIME_KEY);
-
-        if (!startTime) {
-            startTime = now;
-            localStorage.setItem(START_TIME_KEY, startTime);
-        }
-
-        const elapsedTime = now - startTime;
-        const remainingTime = COUNTDOWN_DURATION - elapsedTime;
-
-        if (remainingTime <= 0) {
-            localStorage.setItem(SESSION_KEY, "true");
-            showSessionExpiredMessage();
-        } else {
-            startCountdown(remainingTime);
-        }
-    }
+  
+let timerStarted = false;
 
     function startCountdown(remainingTime) {
+        if (timerStarted) return; // Prevent multiple timers
+        timerStarted = true;
+
         const timerElement = document.getElementById('timer');
         const interval = setInterval(() => {
             const minutes = Math.floor(remainingTime / 1000 / 60);
@@ -121,7 +97,6 @@
 
             if (remainingTime <= 0) {
                 clearInterval(interval);
-                localStorage.setItem(SESSION_KEY, "true");
                 showSessionExpiredMessage();
             }
 
@@ -134,11 +109,36 @@
             <div style="text-align: center; margin-top: 50px;">
                 <h1>Session Expired</h1>
                 <p>You cannot access this page anymore. Please generate a new link to continue.</p>
-                <img src="https://png.pngtree.com/png-clipart/20230806/original/pngtree-time-expired-ink-grungy-course-vector-picture-image_9915504.png" 
+                <img src="https://png.pngtree.com/png-clipart/20230806/original/pngtree-time-expired-ink-grungy-course-vector-picture-image_9915504.png"
                      alt="Time Expired" style="max-width: 100%; height: auto;">
             </div>
         `;
+        // Optionally clear the unique key on expiration
+        localStorage.removeItem("urlKey");
     }
+
+    function validateUrlUsage() {
+        const currentUrlKey = "uniqueKey"; // Replace this with a server-generated unique key
+        const storedKey = localStorage.getItem("urlKey");
+
+        if (storedKey === currentUrlKey) {
+            // If the URL has been used, block access
+            document.body.innerHTML = `
+                <div style="text-align: center; margin-top: 50px;">
+                    <h1>Access Denied</h1>
+                    <p>This URL has already been used. Please generate a new link to access the page.</p>
+                </div>
+            `;
+        } else {
+            // Mark the URL as used
+            localStorage.setItem("urlKey", currentUrlKey);
+            startCountdown(300000); // Example 5-minute countdown
+        }
+    }
+
+    window.addEventListener('load', () => {
+        validateUrlUsage();
+    });
 
     function copyText(element) {
         const copyText = document.getElementById(element).innerText;
